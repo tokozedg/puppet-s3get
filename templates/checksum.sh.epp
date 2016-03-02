@@ -1,0 +1,6 @@
+[ -f <%= $path %> ] || exit 1
+BSUM=`aws s3api head-object --bucket <%= $bucket %> --key <%= $file %> | sed -r 's/.*ETag\W*(\w*).*/\1/;tx;d;:x'`
+ASUM=`md5sum <%= $path %> | cut -f 1 -d  ' '`
+
+[ $BSUM != $ASUM ] && exit 1
+exit 0
